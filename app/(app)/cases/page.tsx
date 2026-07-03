@@ -80,70 +80,36 @@ export default function CasesPage() {
   if (!currentCase) return <div>Loading...</div>
 
   return (
-    <div className="space-y-12">
-      {/* Page Header */}
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-4xl md:text-5xl font-bold text-text-primary">Open Cases</h1>
-        <p className="text-text-muted mt-2">Discover valuable skins and exclusive items</p>
+    <div className="space-y-8">
+      {/* Main Content Area - Case Opening Interface */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="space-y-6"
+      >
+        <RevealPanel
+          title={currentCase.name}
+          image={currentCase.image}
+          price={currentCase.price}
+          quantity={quantity}
+          onQuantityChange={setQuantity}
+          onReveal={handleReveal}
+          isRevealing={isRevealing}
+          revealedItem={revealedItem || undefined}
+        />
       </motion.div>
-
-      {/* Main Content Grid */}
-      <div className="grid lg:grid-cols-3 gap-8">
-        {/* Left: Reveal Panel */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-          className="lg:col-span-2"
-        >
-          <RevealPanel
-            title={currentCase.name}
-            image={currentCase.image}
-            price={currentCase.price}
-            quantity={quantity}
-            onQuantityChange={setQuantity}
-            onReveal={handleReveal}
-            isRevealing={isRevealing}
-            revealedItem={revealedItem || undefined}
-          />
-        </motion.div>
-
-        {/* Right: Case Info */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 }}
-          className="space-y-6"
-        >
-          <div className="rounded-lg bg-dark-panel border border-white/10 p-6 space-y-4">
-            <h3 className="font-bold text-text-primary text-lg">Case Contents</h3>
-            <div className="space-y-3">
-              {currentCase.odds.map((odd) => (
-                <div key={odd.rarity} className="flex items-center justify-between text-sm">
-                  <span className="text-text-muted">{odd.rarity}</span>
-                  <span className="font-bold text-accent-magenta">{odd.percentage}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-lg bg-dark-panel border border-white/10 p-6 space-y-2">
-            <p className="text-sm text-text-muted">Provably Fair</p>
-            <p className="text-xs text-text-muted">
-              All outcomes are cryptographically verified and can be audited anytime.
-            </p>
-          </div>
-        </motion.div>
-      </div>
 
       {/* Found in this Case Section */}
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+        transition={{ delay: 0.1 }}
         className="space-y-6"
       >
-        <h2 className="text-2xl md:text-3xl font-bold text-text-primary">Found in this Case</h2>
+        <div className="flex items-center gap-2">
+          <span className="text-lg">📦</span>
+          <h2 className="text-2xl font-bold text-text-primary">Found in this Case</h2>
+        </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {mockCaseItems.map((item) => (

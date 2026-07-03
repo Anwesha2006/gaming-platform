@@ -72,12 +72,25 @@ export function NavBar({ variant = 'app' }: NavBarProps) {
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             {/* Balance Display */}
             {user.isLoggedIn && (
-              <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-panel border border-white/5">
+              <div className="hidden sm:flex items-center gap-3 px-4 py-2 rounded-lg bg-dark-panel border border-white/10">
+                <span className="text-xs text-text-muted">Balance</span>
                 <PriceDisplay price={user.balance} />
               </div>
+            )}
+
+            {/* Action Buttons */}
+            {user.isLoggedIn && (
+              <>
+                <button className="hidden sm:block px-4 py-2 text-xs font-bold text-text-muted hover:text-text-primary transition-colors">
+                  WITHDRAW
+                </button>
+                <button className="px-4 py-2 bg-accent-magenta hover:bg-accent-magenta/90 text-white rounded-lg font-bold text-xs transition-colors">
+                  DEPOSIT
+                </button>
+              </>
             )}
 
             {/* Notifications */}
@@ -90,12 +103,12 @@ export function NavBar({ variant = 'app' }: NavBarProps) {
               <div className="relative">
                 <motion.button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 p-2 rounded-lg hover:bg-dark-panel transition-colors"
+                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-dark-panel transition-colors"
                 >
                   <img
                     src={user.avatar}
                     alt={user.username}
-                    className="w-8 h-8 rounded-full"
+                    className="w-8 h-8 rounded-full border border-white/10"
                   />
                   <span className="hidden sm:inline text-sm font-medium text-text-primary">
                     {user.username}

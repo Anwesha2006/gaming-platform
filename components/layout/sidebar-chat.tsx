@@ -63,16 +63,22 @@ export function SidebarChat({ className = '' }: SidebarChatProps) {
         {/* Language Selector */}
         <div className="flex items-center gap-2">
           <span className="text-xs text-text-muted">🇬🇧</span>
-          <button className="flex items-center gap-1 text-sm text-text-primary font-medium hover:text-accent-magenta transition-colors">
+          <button className="flex items-center gap-1 text-sm text-text-primary font-bold hover:text-accent-magenta transition-colors">
             English Chat
             <ChevronDown size={16} />
           </button>
         </div>
 
-        {/* Online Count */}
-        <div className="flex items-center gap-2 text-sm">
-          <div className="w-2 h-2 rounded-full bg-accent-neon animate-pulse" />
-          <span className="text-text-muted">543</span>
+        {/* Online Count and Controls */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm">
+            <div className="w-2 h-2 rounded-full bg-accent-neon animate-pulse" />
+            <span className="text-text-muted font-semibold">543</span>
+          </div>
+          <div className="flex gap-2">
+            <button className="text-xs text-text-muted hover:text-text-primary transition-colors">←</button>
+            <button className="text-xs text-text-muted hover:text-text-primary transition-colors">→</button>
+          </div>
         </div>
       </div>
 
