@@ -7,6 +7,7 @@ export interface ChatMessage {
   text: string
   timestamp: Date
   userColor: string
+  level?: number
 }
 
 interface ChatStore {
@@ -32,6 +33,7 @@ const mockMessages: ChatMessage[] = [
     text: 'shall i help you?',
     timestamp: new Date(Date.now() - 120000),
     userColor: colors[0],
+    level: 41,
   },
   {
     id: '2',
@@ -40,6 +42,7 @@ const mockMessages: ChatMessage[] = [
     text: 'alex please call bot',
     timestamp: new Date(Date.now() - 90000),
     userColor: colors[1],
+    level: 40,
   },
   {
     id: '3',
@@ -48,6 +51,7 @@ const mockMessages: ChatMessage[] = [
     text: 'hey everyone',
     timestamp: new Date(Date.now() - 60000),
     userColor: colors[2],
+    level: 36,
   },
   {
     id: '4',
@@ -56,6 +60,7 @@ const mockMessages: ChatMessage[] = [
     text: 'nice drop!',
     timestamp: new Date(Date.now() - 30000),
     userColor: colors[3],
+    level: 94,
   },
 ]
 

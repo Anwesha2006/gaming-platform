@@ -29,7 +29,7 @@ export function CTAButton({
   }
 
   const variantClasses = {
-    primary: 'bg-accent-magenta text-white hover:bg-accent-magenta/90',
+    primary: 'gradient-cta text-white shadow-lg shadow-accent-purple/30',
     secondary: 'bg-accent-purple text-white hover:bg-accent-purple/90',
   }
 

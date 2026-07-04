@@ -87,7 +87,7 @@ export function NavBar({ variant = 'app' }: NavBarProps) {
                 <button className="hidden sm:block px-4 py-2 text-xs font-bold text-text-muted hover:text-text-primary transition-colors">
                   WITHDRAW
                 </button>
-                <button className="px-4 py-2 bg-accent-magenta hover:bg-accent-magenta/90 text-white rounded-lg font-bold text-xs transition-colors">
+                <button className="px-4 py-2 gradient-cta text-white rounded-lg font-bold text-xs transition-all shadow-md shadow-accent-purple/25 hover:shadow-accent-magenta/30">
                   DEPOSIT
                 </button>
               </>

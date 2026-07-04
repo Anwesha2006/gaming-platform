@@ -259,6 +259,145 @@
     mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
     -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
   }
+
+  /* Case Opening 3D Stage */
+  .case-stage {
+    isolation: isolate;
+  }
+
+  .case-floor-grid {
+    background:
+      linear-gradient(rgba(124, 92, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124, 92, 255, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 20%, transparent 75%);
+    transform: perspective(400px) rotateX(65deg);
+    transform-origin: center bottom;
+    opacity: 0.6;
+  }
+
+  .case-spotlight {
+    background: radial-gradient(
+      ellipse 70% 55% at 50% 100%,
+      rgba(124, 92, 255, 0.45) 0%,
+      rgba(255, 45, 109, 0.2) 35%,
+      transparent 70%
+    );
+    filter: blur(8px);
+  }
+
+  .case-glow-idle {
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6))
+      drop-shadow(0 0 30px rgba(124, 92, 255, 0.25))
+      drop-shadow(0 0 60px rgba(255, 45, 109, 0.12));
+  }
+
+  .case-glow-intense {
+    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.7))
+      drop-shadow(0 0 50px rgba(124, 92, 255, 0.55))
+      drop-shadow(0 0 80px rgba(255, 45, 109, 0.35));
+  }
+
+  .case-image-shadow::after {
+    content: '';
+    position: absolute;
+    bottom: -8%;
+    left: 10%;
+    right: 10%;
+    height: 12%;
+    background: radial-gradient(ellipse, rgba(0, 0, 0, 0.5), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .case-particle {
+    opacity: 0;
+    animation: case-particle-float linear infinite;
+    box-shadow: 0 0 6px rgba(124, 92, 255, 0.8), 0 0 12px rgba(255, 45, 109, 0.4);
+  }
+
+  .case-flash-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 90;
+    background: radial-gradient(
+      circle at 50% 45%,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(124, 92, 255, 0.15) 40%,
+      transparent 70%
+    );
+  }
+
+  .case-reveal-burst::before {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 45, 109, 0.35) 0%,
+      rgba(124, 92, 255, 0.2) 40%,
+      transparent 65%
+    );
+    animation: case-burst-pulse 1.2s ease-out forwards;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .loot-card-highlight {
+    box-shadow:
+      0 0 0 1px rgba(255, 45, 109, 0.4),
+      0 0 30px rgba(124, 92, 255, 0.3),
+      0 0 50px rgba(255, 45, 109, 0.2);
+  }
+
+  .gradient-cta {
+    background: linear-gradient(135deg, #7c5cff 0%, #ff2d6d 100%);
+  }
+
+  .gradient-cta:hover {
+    background: linear-gradient(135deg, #8b6dff 0%, #ff4d85 100%);
+  }
+}
+
+@keyframes case-particle-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0);
+  }
+  10% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120px) translateX(var(--drift, 8px));
+  }
+}
+
+@keyframes case-burst-pulse {
+  0% {
+    opacity: 1;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-particle {
+    animation: none;
+    display: none;
+  }
+
+  .testimonial-track {
+    animation: none;
+  }
 }
 
 @keyframes testimonial-scroll {

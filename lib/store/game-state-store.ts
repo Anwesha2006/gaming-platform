@@ -36,10 +36,10 @@ interface GameStateStore extends GameState {
 }
 
 const defaultCase: Case = {
-  id: 'case-1',
-  name: 'Sapphire Case',
-  image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sapphire',
-  price: 4543.63,
+  id: 'case-tycoon',
+  name: 'TYCOON TREASURE',
+  image: '/images/tycoon-case.svg',
+  price: 0.48,
   odds: [
     { rarity: 'Common', percentage: 60 },
     { rarity: 'Rare', percentage: 25 },

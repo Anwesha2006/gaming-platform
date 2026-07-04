@@ -1,127 +1,129 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
-import { RevealPanel } from '@/components/ui/reveal-panel'
-import { ItemCard } from '@/components/ui/item-card'
+import { Package } from 'lucide-react'
+import { CasePageHeader } from '@/components/case-opening/case-page-header'
+import { CaseScene3D, type CaseRevealPhase } from '@/components/case-opening/case-scene-3d'
+import { CaseOpeningControls } from '@/components/case-opening/case-opening-controls'
+import { LootItemCard } from '@/components/case-opening/loot-item-card'
 import { useGameStateStore } from '@/lib/store/game-state-store'
 import { useUserStore } from '@/lib/store/user-store'
+import { TYCOON_LOOT, pickRandomLoot } from '@/lib/case-loot'
+import type { RevealedLoot } from '@/components/case-opening/case-scene-3d'
 
-const mockCaseItems = [
-  {
-    id: '1',
-    name: 'Sapphire Bayonet',
-    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sapphire',
-    rarity: 'legendary' as const,
-    price: 4543.63,
-    wear: { min: 0.02, max: 0.03 },
-    change: 11.5,
-  },
-  {
-    id: '2',
-    name: 'Emerald Knife',
-    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=emerald',
-    rarity: 'epic' as const,
-    price: 26932.83,
-    wear: { min: 0.03, max: 0.04 },
-    change: 8.2,
-  },
-  {
-    id: '3',
-    name: 'Gold Sticker',
-    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=gold',
-    rarity: 'rare' as const,
-    price: 1200.50,
-    wear: { min: 0.01, max: 0.02 },
-    change: -2.3,
-  },
-  {
-    id: '4',
-    name: 'Zirka Skin',
-    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=zirka',
-    rarity: 'epic' as const,
-    price: 5432.15,
-    wear: { min: 0.02, max: 0.05 },
-    change: 5.1,
-  },
-]
+const PHASE_TIMING = {
+  charging: 600,
+  opening: 900,
+  revealedHold: 3500,
+}
 
 export default function CasesPage() {
   const [quantity, setQuantity] = useState(1)
-  const [isRevealing, setIsRevealing] = useState(false)
-  const [revealedItem, setRevealedItem] = useState<{
-    name: string
-    rarity: string
-  } | null>(null)
+  const [phase, setPhase] = useState<CaseRevealPhase>('idle')
+  const [revealedItem, setRevealedItem] = useState<RevealedLoot | null>(null)
+  const [fastOpen, setFastOpen] = useState(false)
 
   const currentCase = useGameStateStore((state) => state.currentCase)
   const updateBalance = useUserStore((state) => state.updateBalance)
 
-  const handleReveal = () => {
-    setIsRevealing(true)
+  const resetReveal = useCallback(() => {
+    setPhase('idle')
     setRevealedItem(null)
+  }, [])
 
-    // Simulate reveal animation
+  const handleOpen = useCallback(() => {
+    if (!currentCase || phase !== 'idle') return
+
+    const totalCost = currentCase.price * quantity
+    updateBalance(-totalCost)
+
+    const won = pickRandomLoot()
+    const loot: RevealedLoot = {
+      name: won.name,
+      rarity: won.rarity,
+      image: won.image,
+      price: won.price,
+    }
+
+    if (fastOpen) {
+      setPhase('revealed')
+      setRevealedItem(loot)
+      setTimeout(resetReveal, PHASE_TIMING.revealedHold)
+      return
+    }
+
+    setPhase('charging')
     setTimeout(() => {
-      const randomItem = mockCaseItems[Math.floor(Math.random() * mockCaseItems.length)]
-      setRevealedItem({
-        name: randomItem.name,
-        rarity: randomItem.rarity,
-      })
+      setPhase('opening')
+      setTimeout(() => {
+        setPhase('revealed')
+        setRevealedItem(loot)
+        setTimeout(resetReveal, PHASE_TIMING.revealedHold)
+      }, PHASE_TIMING.opening)
+    }, PHASE_TIMING.charging)
+  }, [currentCase, phase, quantity, updateBalance, fastOpen, resetReveal])
 
-      // Deduct balance
-      const totalCost = (currentCase?.price || 0) * quantity
-      updateBalance(-totalCost)
-
-      setIsRevealing(false)
-    }, 2000)
+  if (!currentCase) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh] text-text-muted">
+        Loading case...
+      </div>
+    )
   }
 
-  if (!currentCase) return <div>Loading...</div>
+  const isOpening = phase !== 'idle'
 
   return (
-    <div className="space-y-8">
-      {/* Main Content Area - Case Opening Interface */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
+    <div className="space-y-8 lg:space-y-10">
+      <CasePageHeader />
+
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         className="space-y-6"
       >
-        <RevealPanel
-          title={currentCase.name}
-          image={currentCase.image}
+        <CaseScene3D
+          caseImage={currentCase.image}
+          caseName={currentCase.name}
+          caseLabel="Official Case"
+          phase={phase}
+          revealedItem={revealedItem}
+        />
+
+        <CaseOpeningControls
           price={currentCase.price}
           quantity={quantity}
           onQuantityChange={setQuantity}
-          onReveal={handleReveal}
-          isRevealing={isRevealing}
-          revealedItem={revealedItem || undefined}
+          onOpen={handleOpen}
+          isOpening={isOpening}
+          fastOpen={fastOpen}
+          onFastOpenChange={setFastOpen}
         />
-      </motion.div>
+      </motion.section>
 
-      {/* Found in this Case Section */}
       <motion.section
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="space-y-6"
+        className="space-y-5"
       >
-        <div className="flex items-center gap-2">
-          <span className="text-lg">📦</span>
-          <h2 className="text-2xl font-bold text-text-primary">Found in this Case</h2>
+        <div className="flex items-center gap-2.5">
+          <Package size={20} className="text-accent-purple" />
+          <h2 className="text-xl sm:text-2xl font-bold text-text-primary">
+            Found in this Case
+          </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {mockCaseItems.map((item) => (
-            <motion.div key={item.id} whileHover={{ y: -4 }}>
-              <ItemCard
-                image={item.image}
-                title={item.name}
-                price={item.price}
-                change={item.change}
-                rarity={item.rarity}
-                wear={item.wear}
-              />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {TYCOON_LOOT.map((item, i) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 * i }}
+            >
+              <LootItemCard item={item} />
             </motion.div>
           ))}
         </div>

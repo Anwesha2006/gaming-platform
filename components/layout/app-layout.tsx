@@ -21,9 +21,9 @@ export function AppLayout({ children }: AppLayoutProps) {
       {/* Main Content Area */}
       <div className="flex flex-1 pt-16">
         {/* Sidebar - Hidden on mobile, visible on md+ */}
-        <div className="hidden md:block w-64 xl:w-72 flex-shrink-0 border-r border-white/10">
+        <aside className="hidden md:block w-64 xl:w-72 flex-shrink-0 border-r border-white/10 sticky top-16 h-[calc(100vh-4rem)]">
           <SidebarChat />
-        </div>
+        </aside>
 
         {/* Mobile Sidebar Drawer */}
         {sidebarOpen && (
@@ -35,14 +35,15 @@ export function AppLayout({ children }: AppLayoutProps) {
               onClick={() => setSidebarOpen(false)}
               className="fixed inset-0 bg-black/50 z-30 md:hidden"
             />
-            <motion.div
+            <motion.aside
               initial={{ x: -280 }}
               animate={{ x: 0 }}
               exit={{ x: -280 }}
-              className="fixed left-0 top-16 bottom-0 w-64 z-40 md:hidden"
+              transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              className="fixed left-0 top-16 bottom-0 w-[min(280px,85vw)] z-40 md:hidden shadow-2xl shadow-black/50"
             >
               <SidebarChat />
-            </motion.div>
+            </motion.aside>
           </>
         )}
 

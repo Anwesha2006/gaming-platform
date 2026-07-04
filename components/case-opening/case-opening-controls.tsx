@@ -3,13 +3,16 @@
 import { motion } from 'framer-motion'
 import { Zap, Target, Shield } from 'lucide-react'
 import { CTAButton } from '@/components/ui/cta-button'
-import { PriceDisplay } from '@/components/ui/price-display'
 import { useState } from 'react'
+
+interface CaseOpeningControlsProps {
   price: number
   quantity: number
   onQuantityChange: (q: number) => void
   onOpen: () => void
   isOpening: boolean
+  fastOpen?: boolean
+  onFastOpenChange?: (value: boolean) => void
 }
 
 export function CaseOpeningControls({
@@ -18,8 +21,12 @@ export function CaseOpeningControls({
   onQuantityChange,
   onOpen,
   isOpening,
+  fastOpen: fastOpenProp,
+  onFastOpenChange,
 }: CaseOpeningControlsProps) {
-  const [fastOpen, setFastOpen] = useState(false)
+  const [fastOpenLocal, setFastOpenLocal] = useState(false)
+  const fastOpen = fastOpenProp ?? fastOpenLocal
+  const setFastOpen = onFastOpenChange ?? setFastOpenLocal
   const total = price * quantity
 
   return (
