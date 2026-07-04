@@ -31,17 +31,11 @@ export default function Page() {
             {navItems.map((item) => (
               <Link
                 key={item}
-                href={item === 'Community' ? '/community' : `/${item.toLowerCase()}`}
-                className={`text-sm font-semibold transition-colors relative group ${
-                  item === 'Community'
-                    ? 'text-text-primary border-b-2 border-accent-purple'
-                    : 'text-text-muted hover:text-text-primary'
-                }`}
+                href="/login"
+                className="text-sm font-semibold text-text-muted hover:text-text-primary transition-colors relative group"
               >
                 {item}
-                {item !== 'Community' && (
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-accent-purple to-accent-magenta group-hover:w-full transition-all duration-300" />
-                )}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-accent-purple to-accent-magenta group-hover:w-full transition-all duration-300" />
               </Link>
             ))}
           </nav>
@@ -74,7 +68,7 @@ export default function Page() {
             {navItems.map((item) => (
               <Link
                 key={item}
-                href={item === 'Community' ? '/community' : `/${item.toLowerCase()}`}
+                href="/login"
                 className="block text-sm font-semibold text-text-muted hover:text-text-primary transition-colors"
               >
                 {item}

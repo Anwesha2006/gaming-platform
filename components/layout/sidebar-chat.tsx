@@ -9,7 +9,7 @@ interface SidebarChatProps {
   className?: string
 }
 
-const RAIN_REWARD = 2023.98
+const RAIN_REWARD = .98
 
 export function SidebarChat({ className = '' }: SidebarChatProps) {
   const [newMessage, setNewMessage] = useState('')

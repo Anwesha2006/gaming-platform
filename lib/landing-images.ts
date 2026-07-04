@@ -5,5 +5,5 @@ export const BLUR_PLACEHOLDER =
 export const LANDING_IMAGES = {
   arenaHero: '/images/arena-protocol-hero.png',
   trophy: '/images/nexus-trophy.png',
-  riftwalker: '/images/riftwalker-creators.png',
+  riftwalker: '/images/riftwakernew.png',
 } as const

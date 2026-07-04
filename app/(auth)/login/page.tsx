@@ -53,7 +53,7 @@ export default function LoginPage() {
           <div className="w-16 h-16 mx-auto rounded-lg bg-gradient-to-br from-accent-magenta to-accent-purple flex items-center justify-center text-3xl mb-4">
             ⚔️
           </div>
-          <h1 className="text-3xl md:text-4xl font-black text-text-primary">CSRuby</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-text-primary">Nexus</h1>
           <p className="text-text-muted mt-2">Welcome back, gamer</p>
         </motion.div>
 

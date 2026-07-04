@@ -1,33 +1,87 @@
 # gaming-platform
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+A modern Next.js gaming platform built with the App Router, Tailwind CSS, Framer Motion, and Zustand for local state management.
 
-## Built with v0
+## Project Overview
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+This repository contains a fun, interactive gaming frontend with a landing experience and an app shell for games such as Case Battles, Clip Roulette, Coinflip, and Roulette.
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_zjENk5wsRag2rXTEXcpXLqSEQTfm)
+Key features:
+- Next.js App Router with server and client components
+- Responsive landing page with animated hero content
+- In-app gaming pages using Framer Motion and Tailwind UI
+- Persistent client-side UI state via Zustand stores
+- Unified login flow and protected navigation experience
 
-## Getting Started
+## Architecture Diagram
 
-First, run the development server:
+```mermaid
+flowchart TD
+  A[Browser] -->|GET /| B[Landing Page]
+  A -->|GET /login| C[Login Page]
+  A -->|GET /cases, /coinflip, /roulette, /clip-roulette| D[App Pages]
+  C -->|Sign In| E[User Store]
+  E -->|auth state| D
+  D --> F[Zustand Stores]
+  F --> G[Game State, Inventory, User, Chat]
+  D --> H[Components]
+  H --> I[UI / Layout / Games / Landing]
+  subgraph AppRouter
+    B
+    C
+    D
+  end
+  subgraph ClientState
+    E
+    F
+    G
+  end
+  subgraph UI
+    H
+    I
+  end
+```
+
+## Folder Structure
+
+- `app/` - Next.js App Router entrypoints, pages, and layouts
+  - `(app)/` - authenticated app pages and dashboard experience
+  - `(auth)/` - login page and auth flow
+- `components/` - reusable UI pieces and page sections
+- `lib/` - helper utilities, data definitions, and Zustand store setup
+- `public/` - static assets and images
+
+## Key Files
+
+- `app/page.tsx` - landing page with navigation and mobile menu
+- `app/(auth)/login/page.tsx` - login UI and sign-in flow
+- `app/(app)/cases/page.tsx` - cases marketplace page
+- `app/(app)/clip-roulette/page.tsx` - clip roulette game page
+- `components/layout/nav-bar.tsx` - shared top navigation for landing and app shells
+- `lib/store/game-state-store.ts` - shared game state and selected case data
+- `lib/store/user-store.ts` - client-side user auth and balance state
+
+## Running Locally
+
+Install dependencies and start the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Notes
 
-## Learn More
+- Navigation items on the landing page currently redirect to the login page.
+- The app uses Tailwind utility classes and custom gradients for the visual theme.
+- The login page seeds a demo user and redirects to `/cases` after sign-in.
 
-To learn more, take a look at the following resources:
+## Useful Commands
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+```bash
+pnpm dev
+pnpm build
+pnpm lint
+```

@@ -9,7 +9,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: 'CSRuby - Gaming Platform',
+  title: 'Nexus - Gaming Platform',
   description: 'Premium gaming platform for skins, cases, and battles',
   generator: 'v0.app',
   icons: {

@@ -23,15 +23,14 @@ export function NavBar({ variant = 'app' }: NavBarProps) {
   const navLinks =
     variant === 'landing'
       ? [
-          { label: 'Games', href: '/cases' },
-          { label: 'Esports', href: '#' },
-          { label: 'Creators', href: '#' },
-          { label: 'News', href: '#' },
-          { label: 'Community', href: '#' },
+          { label: 'Games', href: '/login' },
+          { label: 'Esports', href: '/login' },
+          { label: 'Creators', href: '/login' },
+          { label: 'News', href: '/login' },
+          { label: 'Community', href: '/login' },
         ]
       : [
-          { label: 'Cases', href: '/cases' },
-          { label: 'Case Battles', href: '/case-battles' },
+          { label: 'Case Battles', href: '/cases' },
           { label: 'Coinflip', href: '/coinflip' },
           { label: 'Roulette', href: '/roulette' },
           { label: 'Clip-Roulette', href: '/clip-roulette' },
@@ -51,7 +50,7 @@ export function NavBar({ variant = 'app' }: NavBarProps) {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-magenta to-accent-purple flex items-center justify-center text-white">
               ⚔️
             </div>
-            <span className="hidden sm:inline text-text-primary">CSRuby</span>
+            <span className="hidden sm:inline text-text-primary">Nexus</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -84,9 +83,6 @@ export function NavBar({ variant = 'app' }: NavBarProps) {
             {/* Action Buttons */}
             {user.isLoggedIn && (
               <>
-                <button className="hidden sm:block px-4 py-2 text-xs font-bold text-text-muted hover:text-text-primary transition-colors">
-                  WITHDRAW
-                </button>
                 <button className="px-4 py-2 gradient-cta text-white rounded-lg font-bold text-xs transition-all shadow-md shadow-accent-purple/25 hover:shadow-accent-magenta/30">
                   DEPOSIT
                 </button>

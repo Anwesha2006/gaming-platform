@@ -299,9 +299,6 @@ export function HeroSection() {
                 transition={{ delay: 0.4, duration: 0.6 }}
                 className="flex flex-col gap-4 leading-[1.6]"
               >
-                <p className="text-lg lg:text-xl font-semibold tracking-wide hero-tagline-gradient">
-                  Your universe.
-                </p>
                 <Link
                   href="/login"
                   className="hero-tagline-cta group inline-flex items-center gap-2.5 w-fit"
